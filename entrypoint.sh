@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ -n "$USERPASSWORD" ]; then
+  echo ''
   # echo "USERPASSWORD: $USERPASSWORD" #debug
   # echo "$USERPASSWORD" > passwordoutput.txt  #save
 else
