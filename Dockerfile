@@ -2,7 +2,6 @@ FROM ubuntu:23.04
 
 #TZ fix for no console/headless
 ENV TZ=UTC
-ENV DEBIAN_FRONTEND noninteractive
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -16,6 +15,7 @@ RUN apt-get update && \
     xfce4-taskmanager \
     xfce4-terminal \
     xfce4-xkb-plugin \
+    libasound2 \
     sudo \
     wget \
     bzip2 \

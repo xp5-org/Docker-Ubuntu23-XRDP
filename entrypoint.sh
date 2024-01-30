@@ -7,7 +7,7 @@ if [ -n "$USERPASSWORD" ]; then
 else
   # Generate a random 10-character password with mixed case letters and numbers
   USERPASSWORD=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo '')
-  # echo "Generated Password: $USERPASSWORD"  # for debugging
+  echo "Generated Password: $USERPASSWORD"  
   # echo "$USERPASSWORD" > passwordoutput.txt         #save
 fi
 
@@ -23,6 +23,9 @@ addgroup "$USERNAME"
 useradd -m -s /bin/bash -g "$USERNAME" "$USERNAME"
 echo "$USERNAME:$USERPASSWORD" | chpasswd 
 usermod -aG sudo "$USERNAME"
+
+# Add firefox to default browser menu icon
+grep -rl '^Exec' ~/.config/xfce4/panel/launcher-19/ | xargs sed -i 's/^Exec=.*/Exec=firefox/'
 
 # Start and stop scripts
 echo -e "starting xrdp services...\n"
