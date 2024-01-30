@@ -5,24 +5,29 @@ ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    #XFCE components
     xfce4 \
     xfce4-clipman-plugin \
     xfce4-cpugraph-plugin \
     xfce4-netload-plugin \
     xserver-xorg-legacy \
+    xdg-utils \
     dbus-x11 \
     xfce4-screenshooter \
     xfce4-taskmanager \
     xfce4-terminal \
     xfce4-xkb-plugin \
-    libasound2 \
+    xorgxrdp \
+    xrdp && \
     sudo \
+    # needed for firefox
+    libasound2 \
+    # extras for tools
     wget \
     bzip2 \
     python3 \
     python3-pip \
-    xorgxrdp \
-    xrdp && \
+    build-essential \
     apt remove -y light-locker xscreensaver && \
     apt autoremove -y && \
     rm -rf /var/cache/apt /var/lib/apt/lists
@@ -37,8 +42,9 @@ CMD ["firefox"]
 # TODO: make audio work
 # https://github.com/neutrinolabs/pulseaudio-module-xrdp
 
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
+WORKDIR /app
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 
 RUN mkdir -p /var/run/dbus && \
     cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
@@ -46,6 +52,6 @@ RUN mkdir -p /var/run/dbus && \
     sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
     echo "xfce4-session" >> /etc/skel/.Xsession
 
-
 EXPOSE 3389
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]

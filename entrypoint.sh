@@ -2,7 +2,7 @@
 
 if [ -n "$USERPASSWORD" ]; then
   echo ''
-  # echo "USERPASSWORD: $USERPASSWORD" #debug
+  echo "USERPASSWORD: $USERPASSWORD" # print password to docker log console
   # echo "$USERPASSWORD" > passwordoutput.txt  #save
 else
   # Generate a random 10-character password with mixed case letters and numbers
@@ -25,7 +25,23 @@ echo "$USERNAME:$USERPASSWORD" | chpasswd
 usermod -aG sudo "$USERNAME"
 
 # Add firefox to default browser menu icon
-grep -rl '^Exec' ~/.config/xfce4/panel/launcher-19/ | xargs sed -i 's/^Exec=.*/Exec=firefox/'
+target_dir="/home/$USERNAME/.config/xfce4/panel/launcher-19/"
+check_directory() {
+    while true; do
+        if [ -d "$target_dir" ]; then
+            echo "XFCE Menu Directory found, adding firefox path"
+            sleep 3
+            grep -rl '^Exec' /home/$USERNAME/.config/xfce4/panel/launcher-19/ | xargs sed -i 's/^Exec=.*/Exec=firefox/'
+            break
+        else
+            echo "XFCE Menu Directory not found. Waiting to add firefox..."
+            sleep 3
+        fi
+    done
+}
+
+# Run the Firefox-fix function in the background
+check_directory &
 
 # Start and stop scripts
 echo -e "starting xrdp services...\n"
