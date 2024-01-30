@@ -38,6 +38,7 @@ CMD ["firefox"]
 # https://github.com/neutrinolabs/pulseaudio-module-xrdp
 
 COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
 
 RUN mkdir -p /var/run/dbus && \
     cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
