@@ -18,7 +18,7 @@ RUN apt-get update && \
     xfce4-terminal \
     xfce4-xkb-plugin \
     xorgxrdp \
-    xrdp && \
+    xrdp \
     sudo \
     # needed for firefox
     libasound2 \
@@ -27,8 +27,8 @@ RUN apt-get update && \
     bzip2 \
     python3 \
     python3-pip \
-    build-essential \
-    apt remove -y light-locker xscreensaver && \
+    build-essential 
+RUN apt remove -y light-locker xscreensaver && \
     apt autoremove -y && \
     rm -rf /var/cache/apt /var/lib/apt/lists
 
