@@ -53,5 +53,4 @@ RUN mkdir -p /var/run/dbus && \
     echo "xfce4-session" >> /etc/skel/.Xsession
 
 EXPOSE 3389
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 ENTRYPOINT ["/app/entrypoint.sh"]
