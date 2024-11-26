@@ -3,6 +3,8 @@ FROM ubuntu:23.10
 #TZ fix for no console/headless
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# fix the apt sources ubuntu 23.10 is old
+RUN sed -i.bak -e 's|archive.ubuntu.com|old-releases.ubuntu.com|g' -e 's|security.ubuntu.com|old-releases.ubuntu.com|g' /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     #XFCE components
